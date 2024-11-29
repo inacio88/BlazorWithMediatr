@@ -1,3 +1,4 @@
+using DemoLibrary.Commands;
 using DemoLibrary.Models;
 using DemoLibrary.Queries;
 using MediatR;
@@ -18,6 +19,14 @@ namespace Api.Controllers
         public async Task<PersonModel> Get(int id)
         {
             return await _mediator.Send(new GetPersonByIdQuery(id));
+        }
+
+        [HttpPost]
+        public async Task<PersonModel> Post([FromBody] PersonModel p)
+        {
+            var model = new InsertPersonCommand(p.FirstName, p.LastName);
+
+            return await _mediator.Send(model);
         }
     }
 }
